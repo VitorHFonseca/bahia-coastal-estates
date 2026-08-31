@@ -14,16 +14,212 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          consultor_id: string | null
+          created_at: string
+          email: string
+          id: string
+          mensagem: string | null
+          nome: string
+          property_id: string | null
+          status: Database["public"]["Enums"]["lead_status"]
+          telefone: string | null
+        }
+        Insert: {
+          consultor_id?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          mensagem?: string | null
+          nome: string
+          property_id?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          telefone?: string | null
+        }
+        Update: {
+          consultor_id?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          mensagem?: string | null
+          nome?: string
+          property_id?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          telefone?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_consultor_id_fkey"
+            columns: ["consultor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leads_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          ativo: boolean
+          bio: string | null
+          cidade: string | null
+          created_at: string
+          email: string
+          foto_url: string | null
+          id: string
+          nome: string
+          telefone: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          ativo?: boolean
+          bio?: string | null
+          cidade?: string | null
+          created_at?: string
+          email?: string
+          foto_url?: string | null
+          id: string
+          nome?: string
+          telefone?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          ativo?: boolean
+          bio?: string | null
+          cidade?: string | null
+          created_at?: string
+          email?: string
+          foto_url?: string | null
+          id?: string
+          nome?: string
+          telefone?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          aprovado: boolean
+          area: number
+          bairro: string | null
+          banheiros: number
+          caracteristicas: string[]
+          cidade: string
+          consultor_id: string | null
+          created_at: string
+          descricao: string
+          destaque: boolean
+          id: string
+          imagens: string[]
+          preco: number
+          publicado: boolean
+          quartos: number
+          status: Database["public"]["Enums"]["property_status"]
+          tipo: string
+          titulo: string
+          updated_at: string
+          video_url: string | null
+          visualizacoes: number
+        }
+        Insert: {
+          aprovado?: boolean
+          area?: number
+          bairro?: string | null
+          banheiros?: number
+          caracteristicas?: string[]
+          cidade: string
+          consultor_id?: string | null
+          created_at?: string
+          descricao?: string
+          destaque?: boolean
+          id?: string
+          imagens?: string[]
+          preco?: number
+          publicado?: boolean
+          quartos?: number
+          status?: Database["public"]["Enums"]["property_status"]
+          tipo?: string
+          titulo: string
+          updated_at?: string
+          video_url?: string | null
+          visualizacoes?: number
+        }
+        Update: {
+          aprovado?: boolean
+          area?: number
+          bairro?: string | null
+          banheiros?: number
+          caracteristicas?: string[]
+          cidade?: string
+          consultor_id?: string | null
+          created_at?: string
+          descricao?: string
+          destaque?: boolean
+          id?: string
+          imagens?: string[]
+          preco?: number
+          publicado?: boolean
+          quartos?: number
+          status?: Database["public"]["Enums"]["property_status"]
+          tipo?: string
+          titulo?: string
+          updated_at?: string
+          video_url?: string | null
+          visualizacoes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "properties_consultor_id_fkey"
+            columns: ["consultor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      increment_property_views: { Args: { _id: string }; Returns: undefined }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "consultor"
+      lead_status: "novo" | "contatado" | "visita" | "proposta" | "fechado"
+      property_status: "disponivel" | "negociacao" | "vendido" | "alugado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +346,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "consultor"],
+      lead_status: ["novo", "contatado", "visita", "proposta", "fechado"],
+      property_status: ["disponivel", "negociacao", "vendido", "alugado"],
+    },
   },
 } as const
