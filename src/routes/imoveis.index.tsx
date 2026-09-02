@@ -27,7 +27,7 @@ type Search = {
 
 const TODOS = "todos";
 
-export const Route = createFileRoute("/imoveis")({
+export const Route = createFileRoute("/imoveis/")({
   validateSearch: (search: Record<string, unknown>): Search => ({
     cidade: typeof search.cidade === "string" ? search.cidade : undefined,
     tipo: typeof search.tipo === "string" ? search.tipo : undefined,
